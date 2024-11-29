@@ -1,0 +1,87 @@
+/* src/components/Kanban.css */
+
+body {
+    background-color: #f4f4f4; /* Cor de fundo suave */
+    font-family: Arial, sans-serif; /* Fonte padrão */
+}
+
+.kanban-column {
+    background-color: #ffffff; /* Fundo branco para as colunas */
+    border-radius: 8px; /* Cantos arredondados */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    margin: 10px; /* Margem entre colunas */
+    padding: 10px; /* Espaçamento interno */
+    width: 300px; /* Largura fixa para as colunas */
+    display: flex;
+    flex-direction: column; /* Coluna de itens */
+}
+
+.kanban-column h2 {
+    text-align: center; /* Centraliza o título da coluna */
+    color: #333; /* Cor do texto */
+    margin-bottom: 10px; /* Espaçamento abaixo do título */
+}
+
+.kanban-card {
+    background-color: #e7f3fe; /* Cor de fundo suave para os cartões */
+    border: 1px solid #a5c8e0; /* Borda do cartão */
+    border-radius: 4px; /* Cantos arredondados para os cartões */
+    margin: 5px 0; /* Margem entre os cartões */
+    padding: 10px; /* Espaçamento interno dos cartões */
+    cursor: pointer; /* Cursor de ponteiro ao passar o mouse */
+    transition: background-color 0.3s; /* Transição suave para a cor de fundo */
+}
+
+.kanban-card:hover {
+    background-color: #d0e7ff; /* Cor de fundo ao passar o mouse */
+}
+
+.detalhes-cartao {
+    position: fixed; /* Fixa o componente na tela */
+    top: 50%; /* Centraliza verticalmente */
+    left: 50%; /* Centraliza horizontalmente */
+    transform: translate(-50%, -50%); /* Ajusta a posição para o centro */
+    background-color: #ffffff; /* Fundo branco para o modal */
+    border-radius: 8px; /* Cantos arredondados */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    padding: 20px; /* Espaçamento interno */
+    z-index: 1000; /* Coloca o modal acima de outros elementos */
+}
+
+.detalhes-cartao h2 {
+    margin-bottom: 15px; /* Espaçamento abaixo do título do modal */
+}
+
+.detalhes-cartao form {
+    display: flex;
+    flex-direction: column; /* Coloca os campos do formulário em coluna */
+}
+
+.detalhes-cartao label {
+    margin-bottom: 5px; /* Espaçamento abaixo dos rótulos */
+}
+
+.detalhes-cartao input,
+.detalhes-cartao textarea,
+.detalhes-cartao select {
+    margin-bottom: 15px; /* Espaçamento abaixo dos campos */
+    padding: 10px; /* Espaçamento interno */
+    border: 1px solid #ccc; /* Borda do campo */
+    border-radius: 4px; /* Cantos arredondados */
+    font-size: 14px; /* Tamanho da fonte */
+}
+
+.detalhes-cartao button {
+    padding: 10px; /* Espaçamento interno do botão */
+    border: none; /* Remove a borda padrão */
+    border-radius: 4px; /* Cantos arredondados */
+    background-color: #007bff; /* Cor de fundo do botão */
+    color: white; /* Cor do texto do botão */
+    cursor: pointer; /* Cursor de ponteiro ao passar o mouse */
+    transition: background-color 0.3s; /* Transição suave para a cor de fundo */
+}
+
+.detalhes-cartao button:hover {
+    background-color: #0056b3; /* Cor de fundo ao passar o mouse */
+}
+
