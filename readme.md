@@ -16,7 +16,7 @@ Antes de começar, você precisará ter instalado:
 
 ### 1. Clonar o Repositório  
 - Clone o repositório do projeto para sua máquina local:
-- ```bash
+- ```bash https://github.com/Brunogeraldo/projeto-kanban.git```
 - git clone 
 - cd kanban-app
 
@@ -45,21 +45,20 @@ typescript
 
 2.4. Rodar o Servidor Backend:
 Inicie o servidor backend:
-```bash```
 `npm run start`
 O servidor estará rodando em: http://localhost:3000.
 
 3. Configurar o Frontend
 3.1. Navegar até a pasta do frontend:
-```bash```
+
 `cd trello-frontend`
 3.2. Instalar Dependências:
-```bash```
+
 `npm install`
 3.3. Rodar o Servidor Frontend:
 Inicie o servidor frontend:
-```bash```
-`npm start`
+
+```npm start```
 
 O aplicativo estará rodando em: http://localhost:3001.
 
