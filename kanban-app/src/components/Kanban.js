@@ -77,6 +77,15 @@ const Kanban = () => {
         e.preventDefault(); // Necessário para permitir o "drop"
     };
 
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`http://localhost:3000/tarefas/${id}`);
+            setTarefas(tarefas.filter(tarefa => tarefa.id !== id));
+        } catch (err) {
+            console.error('Erro ao deletar tarefa:', err);
+        }
+    };
+
     if (loading) return <p>Carregando...</p>;
     if (error) return <p>Erro ao carregar tarefas: {error.message}</p>;
 
@@ -121,6 +130,14 @@ const Kanban = () => {
                                 <h3>{tarefa.titulo}</h3>
                                 <p>{tarefa.descricao}</p>
                                 <p><strong>Data de Criação:</strong> {new Date(tarefa.dataCriacao).toLocaleDateString()}</p>
+
+                                {/* Botão de deletar */}
+                                <button 
+                                    className="delete-btn" 
+                                    onClick={() => handleDelete(tarefa.id)}
+                                >
+                                    Deletar
+                                </button>
                             </div>
                         ))}
                     </div>
@@ -131,7 +148,7 @@ const Kanban = () => {
             {/* Detalhes do Cartão */}
             {detalhesCartao && (
                 <div className="detalhes-cartao">
-                    <h2 >Detalhes da Tarefa</h2>
+                    <h2>Detalhes da Tarefa</h2>
                     <h3>{detalhesCartao.titulo}</h3>
                     <p><strong>Descrição:</strong> {detalhesCartao.descricao}</p>
                     <p><strong>Status:</strong> {detalhesCartao.status}</p>

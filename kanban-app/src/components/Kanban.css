@@ -1,5 +1,6 @@
 /* Geral do Kanban */
 /* Estilo para os cartões (contendo os botões) */
+/* Estilo para os cartões (contendo os botões) */
 .kanban-card {
     background-color: white;
     border: 1px solid #ddd;
@@ -17,6 +18,23 @@
 .kanban-card:active {
     opacity: 0.7; /* Diminui a opacidade ao arrastar */
 }
+
+/* Estilo para o botão de deletar */
+.kanban-card .delete-btn {
+    align-self: flex-end;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.kanban-card .delete-btn:hover {
+    background-color: #c0392b;
+}
+
 
 .kanban {
     display: flex;
