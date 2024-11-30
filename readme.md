@@ -31,7 +31,7 @@ Antes de começar, você precisará ter instalado:
 2.3. Configurar o Banco de Dados:
 Crie um banco de dados no MySQL e atualize as credenciais no arquivo src/app.module.ts:
 
-TypeOrmModule.forRoot({
+`TypeOrmModule.forRoot({
   type: "mysql",
   host: "localhost",
   port: 3306,
@@ -40,25 +40,26 @@ TypeOrmModule.forRoot({
   database: "NOME_DO_BANCO_DE_DADOS",
   entities: [Category, User, Tarefa, Cartao],
   synchronize: true
-}),
+}),`
 
 2.4. Rodar o Servidor Backend:
 Inicie o servidor backend:
 
-npm run start
+`npm run start`
 O servidor estará rodando em: http://localhost:3000.
 
 3. Configurar o Frontend
 3.1. Navegar até a pasta do frontend:
 
-cd trello-frontend
+`cd trello-frontend`
 3.2. Instalar Dependências:
 
-npm install
+`npm install`
 3.3. Rodar o Servidor Frontend:
 Inicie o servidor frontend:
 
-npm start
+`npm start`
+
 O aplicativo estará rodando em: http://localhost:3001.
 
 🚀 Usando o Aplicativo
