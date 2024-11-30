@@ -14,24 +14,25 @@ Antes de começar, você precisará ter instalado:
 
 ## ⚙️ Configuração do Ambiente
 
-### 1. Clonar o Repositório  
+## 1. Clonar o Repositório  
 - Clone o repositório do projeto para sua máquina local:
 - ```bash https://github.com/Brunogeraldo/projeto-kanban.git```
 - git clone 
 - cd kanban-app
 
 
-### 2. Configurar o Backend
-## 2.1. Navegar até a pasta do backend:
+## 2. Configurar o Backend
+
+### 2.1. Navegar até a pasta do backend:
 
 - cd trello-nest-main
-## 2.2. Instalar Dependências:
+### 2.2. Instalar Dependências:
 `npm install`
 
-2.3. Configurar o Banco de Dados:
+### 2.3. Configurar o Banco de Dados:
 Crie um banco de dados no MySQL e atualize as credenciais no arquivo src/app.module.ts:
 
-typescript
+```typescript
 `TypeOrmModule.forRoot({
   type: "mysql",
   host: "localhost",
@@ -42,6 +43,7 @@ typescript
   entities: [Category, User, Tarefa, Cartao],
   synchronize: true
 }),
+```
 
 2.4. Rodar o Servidor Backend:
 Inicie o servidor backend:
