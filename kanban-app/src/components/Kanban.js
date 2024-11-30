@@ -114,12 +114,7 @@ const Kanban = () => {
     return (
         <div style={{ display: 'flex', flexDirection: 'column' }}>
             <div style={{ marginBottom: '20px' }}>
-                <label htmlFor="filtro">Filtrar tarefas: </label>
-                <select id="filtro" value={filtro} onChange={(e) => setFiltro(e.target.value)}>
-                    <option value="Todas">Todas</option>
-                    <option value="Concluídas">Concluídas</option>
-                    <option value="Mais Recentes">Mais Recentes</option>
-                </select>
+                
             </div>
             <div style={{ marginBottom: '20px' }}>
                 <label htmlFor="search">Pesquisar Tarefa: </label>
