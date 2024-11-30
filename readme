@@ -26,7 +26,7 @@ Antes de começar, você precisará ter instalado:
 
 - cd trello-nest-main
 ## 2.2. Instalar Dependências:
-- npm install
+`npm install`
 
 2.3. Configurar o Banco de Dados:
 Crie um banco de dados no MySQL e atualize as credenciais no arquivo src/app.module.ts:
