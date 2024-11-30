@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Kanban.css'; // Certifique-se de ter um arquivo CSS para estilização
 import FormularioTarefa from './FormularioCartao'; // Importando o formulário
-
+// teste
 const Kanban = () => {
     const [tarefas, setTarefas] = useState([]);
     const [loading, setLoading] = useState(true);
