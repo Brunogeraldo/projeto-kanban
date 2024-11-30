@@ -1,4 +1,4 @@
-# Kanban App
+#Kanban App
 
 Este é um aplicativo Kanban simples construído com React e Node.js (NestJS). O objetivo do projeto é permitir que os usuários gerenciem suas tarefas de forma visual e interativa.
 
@@ -26,5 +26,45 @@ Antes de começar, você precisará ter instalado:
 
 - cd trello-nest-main
 ## 2.2. Instalar Dependências:
-- npm install
+`npm install`
+
+2.3. Configurar o Banco de Dados:
+Crie um banco de dados no MySQL e atualize as credenciais no arquivo src/app.module.ts:
+
+TypeOrmModule.forRoot({
+  type: "mysql",
+  host: "localhost",
+  port: 3306,
+  username: "SEU_USUARIO",
+  password: "SUA_SENHA",
+  database: "NOME_DO_BANCO_DE_DADOS",
+  entities: [Category, User, Tarefa, Cartao],
+  synchronize: true
+}),
+
+2.4. Rodar o Servidor Backend:
+Inicie o servidor backend:
+
+npm run start
+O servidor estará rodando em: http://localhost:3000.
+
+3. Configurar o Frontend
+3.1. Navegar até a pasta do frontend:
+
+cd trello-frontend
+3.2. Instalar Dependências:
+
+npm install
+3.3. Rodar o Servidor Frontend:
+Inicie o servidor frontend:
+
+npm start
+O aplicativo estará rodando em: http://localhost:3001.
+
+🚀 Usando o Aplicativo
+Acesse o aplicativo no seu navegador em: http://localhost:3001.
+Adicione novas tarefas usando o formulário na parte inferior do Kanban.
+As tarefas podem ser filtradas e visualizadas em diferentes colunas: "A Fazer", "Em Progresso" e "Concluído".
+Clique em uma tarefa para ver mais detalhes sobre ela.
+
 
