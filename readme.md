@@ -32,16 +32,7 @@ cd trello-nest-main
 npm install
 ```
 
-### 2.3. Navegar até a pasta do frontend:
-```bash
-cd kanban-app
-```
-### 2.4. Instalar Dependências:
-```bash
-npm install
-```
-
-### 2.5. Configurar o Banco de Dados:
+### 2.3. Configurar o Banco de Dados:
 Crie um banco de dados no MySQL e atualize as credenciais no arquivo src/app.module.ts:
 
 ```typescript
@@ -57,7 +48,7 @@ Crie um banco de dados no MySQL e atualize as credenciais no arquivo src/app.mod
 }),
 ```
 
-### 2.5. Rodar o Servidor Backend:
+### 2.4. Rodar o Servidor Backend:
 Inicie o servidor backend:
 ```bash
 npm run start
