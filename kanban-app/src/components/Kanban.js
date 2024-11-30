@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './Kanban.css'; // Certifique-se de ter um arquivo CSS para estilização
-import FormularioTarefa from './FormularioCartao'; // Importando o formulário
+import './Kanban.css'; // Importa o arquivo CSS para estilização
+import FormularioTarefa from './FormularioCartao'; // Importa o formulário para criar novas tarefas
 
 const Kanban = () => {
     const [tarefas, setTarefas] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [filtro, setFiltro] = useState('Todas'); // Estado para o filtro
-    const [detalhesCartao, setDetalhesCartao] = useState(null); // Estado para detalhes do cartão
+    const [filtro, setFiltro] = useState('Todas');
+    const [detalhesCartao, setDetalhesCartao] = useState(null);
+    const [searchTerm, setSearchTerm] = useState(''); // Estado para armazenar a pesquisa
 
     useEffect(() => {
         const fetchTarefas = async () => {
@@ -31,43 +32,49 @@ const Kanban = () => {
     };
 
     const tarefasFiltradas = () => {
+        let tarefasFiltradas = tarefas;
+
+        // Filtra tarefas por status
         if (filtro === 'Concluídas') {
-            return tarefas.filter(tarefa => tarefa.status === 'Concluído');
+            tarefasFiltradas = tarefasFiltradas.filter(tarefa => tarefa.status === 'Concluído');
         } else if (filtro === 'Mais Recentes') {
-            return [...tarefas].sort((a, b) => new Date(b.dataCriacao) - new Date(a.dataCriacao));
+            tarefasFiltradas = [...tarefasFiltradas].sort((a, b) => new Date(b.dataCriacao) - new Date(a.dataCriacao));
         }
-        return tarefas; // Retorna todas as tarefas se o filtro for "Todas"
+
+        // Filtra tarefas por palavra-chave no título ou descrição
+        if (searchTerm) {
+            tarefasFiltradas = tarefasFiltradas.filter(tarefa =>
+                tarefa.titulo.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                (tarefa.descricao && tarefa.descricao.toLowerCase().includes(searchTerm.toLowerCase()))
+            );
+        }
+
+        return tarefasFiltradas; // Retorna as tarefas filtradas
     };
 
     const mostrarDetalhes = (tarefa) => {
-        setDetalhesCartao(tarefa); // Define a tarefa selecionada para mostrar os detalhes
+        setDetalhesCartao(tarefa);
     };
 
     const fecharDetalhes = () => {
-        setDetalhesCartao(null); // Limpa os detalhes ao fechar
+        setDetalhesCartao(null);
     };
 
     const handleDragStart = (e, tarefaId) => {
-        // Guarda o ID da tarefa que está sendo arrastada
         e.dataTransfer.setData('tarefaId', tarefaId);
     };
 
     const handleDrop = async (e, novoStatus) => {
         const tarefaId = e.dataTransfer.getData('tarefaId');
         const tarefaAtualizada = tarefas.find(tarefa => tarefa.id === parseInt(tarefaId));
-    
+
         if (tarefaAtualizada) {
-            // Cria um objeto com os dados que serão atualizados (no caso, apenas o status)
             const updatedTask = { status: novoStatus };
-    
             try {
-                // Usando PATCH para atualizar o status da tarefa no backend
                 await axios.patch(`http://localhost:3000/tarefas/${tarefaId}`, updatedTask);
-    
-                // Atualizando o estado local imediatamente após a requisição
                 setTarefas(prevTarefas => 
                     prevTarefas.map(tarefa => 
-                        tarefa.id === tarefaId ? { ...tarefa, status: novoStatus } : tarefa
+                        tarefa.id === tarefaAtualizada.id ? { ...tarefa, status: novoStatus } : tarefa
                     )
                 );
             } catch (err) {
@@ -75,113 +82,66 @@ const Kanban = () => {
             }
         }
     };
-    
 
-    const handleDragOver = (e) => {
-        e.preventDefault(); // Necessário para permitir o "drop"
-    };
-
-    const handleDelete = async (id) => {
-        try {
-            await axios.delete(`http://localhost:3000/tarefas/${id}`);
-            setTarefas(tarefas.filter(tarefa => tarefa.id !== id));
-        } catch (err) {
-            console.error('Erro ao deletar tarefa:', err);
-        }
-    };
-
-    if (loading) return <p>Carregando...</p>;
-    if (error) return <p>Erro ao carregar tarefas: {error.message}</p>;
-
-    // Agrupando tarefas por status
-    const tarefasAgrupadas = {
-        'A Fazer': [],
-        'Em Progresso': [],
-        'Concluído': [],
-    };
-
-    tarefasFiltradas().forEach(tarefa => {
-        tarefasAgrupadas[tarefa.status].push(tarefa);
-    });
+    if (loading) return <div>Carregando...</div>;
+    if (error) return <div>Erro ao carregar tarefas: {error.message}</div>;
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <div>
+            <h1>Kanban</h1>
+            <FormularioTarefa onTarefaCriada={handleTarefaCriada} /> {/* Formulário para criar novas tarefas */}
             <div style={{ marginBottom: '20px' }}>
-                <label htmlFor="filtro">Filtrar tarefas: </label>
-                <select id="filtro" value={filtro} onChange={(e) => setFiltro(e.target.value)}>
-                    <option value="Todas">Todas</option>
-                    <option value="Concluídas">Concluídas</option>
-                    <option value="Mais Recentes">Mais Recentes</option>
-                </select>
+                <label htmlFor="search">Pesquisar Tarefa: </label>
+                <input
+                    type="text"
+                    id="search"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    placeholder="Digite uma palavra-chave"
+                />
             </div>
             <div className="kanban" style={{ display: 'flex', justifyContent: 'space-between' }}>
-                {Object.entries(tarefasAgrupadas).map(([status]) => (
+                {['A Fazer', 'Em Progresso', 'Concluído'].map(status => (
                     <div 
                         key={status} 
-                        className="kanban-column"
-                        onDragOver={handleDragOver}
+                        className="kanban -column"
+                        onDragOver={(e) => e.preventDefault()} // Permitir o drop
                         onDrop={(e) => handleDrop(e, status)}
                         style={{
                             width: '30%',
-                            backgroundColor: '#f4f4f4',
+                            backgroundColor: '#f0f0f0',
                             padding: '10px',
-                            borderRadius: '8px',
-                            boxShadow: '0 0 5px rgba(0,0,0,0.1)',
+                            borderRadius: '5px',
+                            boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
                         }}
                     >
                         <h2>{status}</h2>
-                        {tarefasAgrupadas[status].map((tarefa) => (
+                        {tarefasFiltradas().filter(tarefa => tarefa.status === status).map(tarefa => (
                             <div 
                                 key={tarefa.id} 
-                                className="kanban-card" 
                                 draggable 
-                                onDragStart={(e) => handleDragStart(e, tarefa.id)}
-                                onClick={() => mostrarDetalhes(tarefa)}
+                                onDragStart={(e) => handleDragStart(e, tarefa.id)} 
                                 style={{
                                     backgroundColor: '#fff',
+                                    margin: '5px 0',
                                     padding: '10px',
-                                    marginBottom: '10px',
-                                    borderRadius: '5px',
-                                    boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
-                                    cursor: 'pointer',
+                                    borderRadius: '3px',
+                                    boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
                                 }}
                             >
                                 <h3>{tarefa.titulo}</h3>
                                 <p>{tarefa.descricao}</p>
-                                <p><strong>Data de Criação:</strong> {new Date(tarefa.dataCriacao).toLocaleDateString()}</p>
-
-                                {/* Botão de deletar */}
-                                <button 
-                                    className="delete-btn" 
-                                    onClick={() => handleDelete(tarefa.id)}
-                                    style={{
-                                        backgroundColor: 'red',
-                                        color: '#fff',
-                                        border: 'none',
-                                        padding: '5px 10px',
-                                        borderRadius: '5px',
-                                        cursor: 'pointer',
-                                        fontSize: '12px',
-                                        marginTop: '5px',
-                                    }}
-                                >
-                                    Deletar
-                                </button>
+                                <button onClick={() => mostrarDetalhes(tarefa)}>Ver Detalhes</button>
                             </div>
                         ))}
                     </div>
                 ))}
             </div>
-            <FormularioTarefa onTarefaCriada={handleTarefaCriada} />
-
-            {/* Detalhes do Cartão */}
             {detalhesCartao && (
-                <div className="detalhes-cartao">
+                <div style={{ marginTop: '20px', padding: '10px', border: '1px solid #ccc', borderRadius: '5px' }}>
                     <h2>Detalhes da Tarefa</h2>
-                    <h3>{detalhesCartao.titulo}</h3>
+                    <p><strong>Título:</strong> {detalhesCartao.titulo}</p>
                     <p><strong>Descrição:</strong> {detalhesCartao.descricao}</p>
-                    <p><strong>Status:</strong> {detalhesCartao.status}</p>
-                    <p><strong>Data de Criação:</strong> {new Date(detalhesCartao.dataCriacao).toLocaleDateString()}</p>
                     <button onClick={fecharDetalhes}>Fechar</button>
                 </div>
             )}
