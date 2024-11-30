@@ -57,23 +57,23 @@ Crie um banco de dados no MySQL e atualize as credenciais no arquivo src/app.mod
 }),
 ```
 
-2.4. Rodar o Servidor Backend:
+### 2.5. Rodar o Servidor Backend:
 Inicie o servidor backend:
 ```bash
 npm run start
 ```
 O servidor estará rodando em: http://localhost:3000.
 
-3. Configurar o Frontend
-3.1. Navegar até a pasta do frontend:
+## 3. Configurar o Frontend
+### 3.1. Navegar até a pasta do frontend:
 ```bash
 cd trello-frontend
 ```
-3.2. Instalar Dependências:
+### 3.2. Instalar Dependências:
 ```bash
 npm install
 ```
-3.3. Rodar o Servidor Frontend:
+### 3.3. Rodar o Servidor Frontend:
 Inicie o servidor frontend:
 ```bash
 npm start
