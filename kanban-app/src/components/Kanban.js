@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Kanban.css'; // Certifique-se de ter um arquivo CSS para estilização
 import FormularioTarefa from './FormularioCartao'; // Importando o formulário
-// teste
+
 const Kanban = () => {
     const [tarefas, setTarefas] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -55,16 +55,19 @@ const Kanban = () => {
     const handleDrop = async (e, novoStatus) => {
         const tarefaId = e.dataTransfer.getData('tarefaId');
         const tarefaAtualizada = tarefas.find(tarefa => tarefa.id === parseInt(tarefaId));
-        
+    
         if (tarefaAtualizada) {
-            // Atualiza o status da tarefa
-            const updatedTask = { ...tarefaAtualizada, status: novoStatus };
-            
+            // Cria um objeto com os dados que serão atualizados (no caso, apenas o status)
+            const updatedTask = { status: novoStatus };
+    
             try {
-                await axios.put(`http://localhost:3000/tarefas/${tarefaId}`, updatedTask);
+                // Usando PATCH para atualizar o status da tarefa no backend
+                await axios.patch(`http://localhost:3000/tarefas/${tarefaId}`, updatedTask);
+    
+                // Atualizando o estado local imediatamente após a requisição
                 setTarefas(prevTarefas => 
                     prevTarefas.map(tarefa => 
-                        tarefa.id === tarefaId ? updatedTask : tarefa
+                        tarefa.id === tarefaId ? { ...tarefa, status: novoStatus } : tarefa
                     )
                 );
             } catch (err) {
@@ -72,6 +75,7 @@ const Kanban = () => {
             }
         }
     };
+    
 
     const handleDragOver = (e) => {
         e.preventDefault(); // Necessário para permitir o "drop"
@@ -110,13 +114,20 @@ const Kanban = () => {
                     <option value="Mais Recentes">Mais Recentes</option>
                 </select>
             </div>
-            <div className="kanban">
+            <div className="kanban" style={{ display: 'flex', justifyContent: 'space-between' }}>
                 {Object.entries(tarefasAgrupadas).map(([status]) => (
                     <div 
                         key={status} 
                         className="kanban-column"
                         onDragOver={handleDragOver}
                         onDrop={(e) => handleDrop(e, status)}
+                        style={{
+                            width: '30%',
+                            backgroundColor: '#f4f4f4',
+                            padding: '10px',
+                            borderRadius: '8px',
+                            boxShadow: '0 0 5px rgba(0,0,0,0.1)',
+                        }}
                     >
                         <h2>{status}</h2>
                         {tarefasAgrupadas[status].map((tarefa) => (
@@ -126,6 +137,14 @@ const Kanban = () => {
                                 draggable 
                                 onDragStart={(e) => handleDragStart(e, tarefa.id)}
                                 onClick={() => mostrarDetalhes(tarefa)}
+                                style={{
+                                    backgroundColor: '#fff',
+                                    padding: '10px',
+                                    marginBottom: '10px',
+                                    borderRadius: '5px',
+                                    boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
+                                    cursor: 'pointer',
+                                }}
                             >
                                 <h3>{tarefa.titulo}</h3>
                                 <p>{tarefa.descricao}</p>
@@ -135,6 +154,16 @@ const Kanban = () => {
                                 <button 
                                     className="delete-btn" 
                                     onClick={() => handleDelete(tarefa.id)}
+                                    style={{
+                                        backgroundColor: 'red',
+                                        color: '#fff',
+                                        border: 'none',
+                                        padding: '5px 10px',
+                                        borderRadius: '5px',
+                                        cursor: 'pointer',
+                                        fontSize: '12px',
+                                        marginTop: '5px',
+                                    }}
                                 >
                                     Deletar
                                 </button>

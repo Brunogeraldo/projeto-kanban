@@ -1,3 +1,4 @@
+// TarefaService
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -12,11 +13,10 @@ export class TarefaService {
     private tarefaRepository: Repository<Tarefa>,
   ) {}
 
-  
   async create(criarTarefaDto: CriarTarefaDto): Promise<Tarefa> {
     const tarefa = this.tarefaRepository.create({
-        ...criarTarefaDto,
-        dataCriacao: new Date(), // Gera a data de criação automaticamente
+      ...criarTarefaDto,
+      dataCriacao: new Date(), // Gera a data de criação automaticamente
     });
     return this.tarefaRepository.save(tarefa);
   }
