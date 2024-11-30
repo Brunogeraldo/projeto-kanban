@@ -66,15 +66,19 @@ O servidor estará rodando em: http://localhost:3000.
 
 ## 3. Configurar o Frontend
 ### 3.1. Navegar até a pasta do frontend:
+
 ```bash
 cd trello-frontend
 ```
 ### 3.2. Instalar Dependências:
+
 ```bash
 npm install
 ```
+
 ### 3.3. Rodar o Servidor Frontend:
 Inicie o servidor frontend:
+
 ```bash
 npm start
 ```
