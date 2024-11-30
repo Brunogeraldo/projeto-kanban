@@ -13,7 +13,13 @@ export const createCartao = async (cartao) => {
 };
 
 export const updateCartao = async (id, cartao) => {
-    const response = await axios.patch(`${API_URL}/${id}`, cartao);
+    const response = await axios.put(`${API_URL}/${id}`, cartao);
+    return response.data;
+};
+
+// Atualizar o status utilizando o update já existente
+export const updateCartaoStatus = async (id, status) => {
+    const response = await axios.patch(`${API_URL}/${id}`, { status });
     return response.data;
 };
 

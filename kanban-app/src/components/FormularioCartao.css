@@ -1,49 +1,64 @@
-/* src/components/FormularioCartao.css */
-
+/* Estilos para o formulário de criação de tarefa */
 form {
-    display: flex;
-    flex-wrap: wrap; /* Permite que os itens se movam para a linha seguinte se não houver espaço */
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    background-color: #fff;
     padding: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    gap: 10px; /* Espaçamento entre os elementos */
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
-input[type="text"],
-select {
+form input,
+form select,
+form button {
+    width: 100%;
     padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    flex: 1; /* Faz com que os inputs e selects ocupem o mesmo espaço */
-    min-width: 150px; /* Largura mínima para evitar que fiquem muito pequenos */
+    font-size: 1rem;
 }
 
-input[type="text"]:focus,
-select:focus {
-    border-color: #007bff; /* Cor do foco */
-    outline: none; /* Remove o contorno padrão */
+form input[type="text"] {
+    margin-bottom: 15px;
 }
 
-button {
-    padding: 10px;
-    background-color: #007bff; /* Cor do botão */
+form button {
+    background-color: #4CAF50;
     color: white;
     border: none;
-    border-radius: 4px;
-    font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s;
-    min-width: 120px; /* Largura mínima do botão */
+    font-size: 1.2rem;
+    transition: background-color 0.2s ease;
 }
 
-button:hover {
-    background-color: #0056b3; /* Cor do botão ao passar o mouse */
+form button:hover {
+    background-color: #45a049;
 }
 
-button:disabled {
-    background-color: #cccccc; /* Cor do botão desabilitado */
-    cursor: not-allowed;
+form select {
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+/* Estilo de placeholders */
+input::placeholder {
+    color: #999;
+}
+
+/* Estilo quando o formulário está em foco */
+form input:focus,
+form select:focus,
+form button:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+/* Alinhar formulário ao centro */
+.formulario-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
 }

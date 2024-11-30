@@ -1,18 +1,17 @@
-// src/components/FormularioTarefa.js
 import React, { useState } from 'react';
 import axios from 'axios';
-import './FormularioCartao.css'
+import './FormularioCartao.css';
 
-const FormularioTarefa = ({ onTarefaCriada }) => {
-    const [titulo, setTitulo] = useState('');
-    const [descricao, setDescricao] = useState('');
-    const [status, setStatus] = useState('A Fazer');
-    const [prioridade, setPrioridade] = useState('Média');
+const FormularioTarefa = ({ onTarefaCriada, tarefaParaEditar, onTarefaAtualizada }) => {
+    const [titulo, setTitulo] = useState(tarefaParaEditar ? tarefaParaEditar.titulo : '');
+    const [descricao, setDescricao] = useState(tarefaParaEditar ? tarefaParaEditar.descricao : '');
+    const [status, setStatus] = useState(tarefaParaEditar ? tarefaParaEditar.status : 'A Fazer');
+    const [prioridade, setPrioridade] = useState(tarefaParaEditar ? tarefaParaEditar.prioridade : 'Média');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const novaTarefa = {
+        const tarefa = {
             titulo,
             descricao,
             status,
@@ -20,15 +19,21 @@ const FormularioTarefa = ({ onTarefaCriada }) => {
         };
 
         try {
-            const response = await axios.post('http://localhost:3000/tarefas', novaTarefa);
-            console.log('Tarefa criada:', response.data);
-            onTarefaCriada(response.data); // Chama a função para atualizar o quadro Kanban
+            if (tarefaParaEditar) {
+                // Atualizar tarefa existente
+                const response = await axios.put(`http://localhost:3000/tarefas/${tarefaParaEditar.id}`, tarefa);
+                onTarefaAtualizada(response.data); // Passa a tarefa atualizada para o Kanban
+            } else {
+                // Criar nova tarefa
+                const response = await axios.post('http://localhost:3000/tarefas', tarefa);
+                onTarefaCriada(response.data); // Chama a função para atualizar o quadro Kanban
+            }
             setTitulo('');
             setDescricao('');
             setStatus('A Fazer');
             setPrioridade('Média');
         } catch (error) {
-            console.error('Erro ao criar tarefa:', error);
+            console.error('Erro ao criar/atualizar tarefa:', error);
         }
     };
 
@@ -57,7 +62,7 @@ const FormularioTarefa = ({ onTarefaCriada }) => {
                 <option value="Média">Média</option>
                 <option value="Alta">Alta</option>
             </select>
-            <button type="submit">Criar Tarefa</button>
+            <button type="submit">{tarefaParaEditar ? 'Atualizar' : 'Criar'} Tarefa</button>
         </form>
     );
 };

@@ -1,4 +1,3 @@
-// src/components/Kanban.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Kanban.css'; // Certifique-se de ter um arquivo CSS para estilização
@@ -48,6 +47,36 @@ const Kanban = () => {
         setDetalhesCartao(null); // Limpa os detalhes ao fechar
     };
 
+    const handleDragStart = (e, tarefaId) => {
+        // Guarda o ID da tarefa que está sendo arrastada
+        e.dataTransfer.setData('tarefaId', tarefaId);
+    };
+
+    const handleDrop = async (e, novoStatus) => {
+        const tarefaId = e.dataTransfer.getData('tarefaId');
+        const tarefaAtualizada = tarefas.find(tarefa => tarefa.id === parseInt(tarefaId));
+        
+        if (tarefaAtualizada) {
+            // Atualiza o status da tarefa
+            const updatedTask = { ...tarefaAtualizada, status: novoStatus };
+            
+            try {
+                await axios.put(`http://localhost:3000/tarefas/${tarefaId}`, updatedTask);
+                setTarefas(prevTarefas => 
+                    prevTarefas.map(tarefa => 
+                        tarefa.id === tarefaId ? updatedTask : tarefa
+                    )
+                );
+            } catch (err) {
+                console.error('Erro ao atualizar tarefa:', err);
+            }
+        }
+    };
+
+    const handleDragOver = (e) => {
+        e.preventDefault(); // Necessário para permitir o "drop"
+    };
+
     if (loading) return <p>Carregando...</p>;
     if (error) return <p>Erro ao carregar tarefas: {error.message}</p>;
 
@@ -74,10 +103,21 @@ const Kanban = () => {
             </div>
             <div className="kanban">
                 {Object.entries(tarefasAgrupadas).map(([status]) => (
-                    <div key={status} className="kanban-column">
+                    <div 
+                        key={status} 
+                        className="kanban-column"
+                        onDragOver={handleDragOver}
+                        onDrop={(e) => handleDrop(e, status)}
+                    >
                         <h2>{status}</h2>
                         {tarefasAgrupadas[status].map((tarefa) => (
-                            <div key={tarefa.id} className="kanban-card" onClick={() => mostrarDetalhes(tarefa)}>
+                            <div 
+                                key={tarefa.id} 
+                                className="kanban-card" 
+                                draggable 
+                                onDragStart={(e) => handleDragStart(e, tarefa.id)}
+                                onClick={() => mostrarDetalhes(tarefa)}
+                            >
                                 <h3>{tarefa.titulo}</h3>
                                 <p>{tarefa.descricao}</p>
                                 <p><strong>Data de Criação:</strong> {new Date(tarefa.dataCriacao).toLocaleDateString()}</p>
