@@ -48,4 +48,23 @@ Inicie o servidor backend:
 npm run start
 O servidor estará rodando em: http://localhost:3000.
 
+3. Configurar o Frontend
+3.1. Navegar até a pasta do frontend:
+
+cd trello-frontend
+3.2. Instalar Dependências:
+
+npm install
+3.3. Rodar o Servidor Frontend:
+Inicie o servidor frontend:
+
+npm start
+O aplicativo estará rodando em: http://localhost:3001.
+
+🚀 Usando o Aplicativo
+Acesse o aplicativo no seu navegador em: http://localhost:3001.
+Adicione novas tarefas usando o formulário na parte inferior do Kanban.
+As tarefas podem ser filtradas e visualizadas em diferentes colunas: "A Fazer", "Em Progresso" e "Concluído".
+Clique em uma tarefa para ver mais detalhes sobre ela.
+
 
