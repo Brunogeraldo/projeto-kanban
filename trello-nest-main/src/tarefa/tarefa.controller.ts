@@ -1,3 +1,4 @@
+// TarefaController
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { TarefaService } from './tarefa.service';
 import { CriarTarefaDto } from './dto/criar-tarefa.dto';
@@ -6,8 +7,7 @@ import { Tarefa } from './tarefa.entity';
 
 @Controller('tarefas')
 export class TarefaController {
-  constructor(private readonly tarefaService: TarefaService) { }
-
+  constructor(private readonly tarefaService: TarefaService) {}
 
   @Post()
   create(@Body() criarTarefaDto: CriarTarefaDto): Promise<Tarefa> {
@@ -25,9 +25,9 @@ export class TarefaController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() atualizarTarefaDto: AtualizarTarefaDto): Promise<Tarefa> {
-    return this.tarefaService.update(+id, atualizarTarefaDto);
-  }
+update(@Param('id') id: string, @Body() atualizarTarefaDto: AtualizarTarefaDto): Promise<Tarefa> {
+  return this.tarefaService.update(+id, atualizarTarefaDto);
+}
 
   @Delete(':id')
   remove(@Param('id') id: string): Promise<void> {

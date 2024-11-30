@@ -6,7 +6,7 @@ import { TarefaController } from './tarefa.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Tarefa])],
-  providers: [TarefaService],
   controllers: [TarefaController],
+  providers: [TarefaService],
 })
 export class TarefaModule {}
